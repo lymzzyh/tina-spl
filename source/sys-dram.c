@@ -718,23 +718,43 @@ dram init successed,size is 32
 
 void sys_dram_init(void)
 {
-	u32_t * p;
-	int i = 0;
-	char fmt[16];
-	fmt[0] = 'D';
-	fmt[1] = 'D';
-	fmt[2] = 'R';
-	fmt[3] = '=';
-	fmt[4] = '%';
-	fmt[5] = 'x';
-	fmt[6] = '\r';
-	fmt[7] = '\n';
-	fmt[8] = 0;
+	char fmt[32];
 
-	i = mctl_init();
-	printk(fmt, i);
-
-	p = (u32_t *)(0x80000000);
-	for(i = 0; i< 128; i++)
-		printk(fmt, p[i]);
+	if(mctl_init())
+	{
+		fmt[0] = 'D';
+		fmt[1] = 'D';
+		fmt[2] = 'R';
+		fmt[3] = ' ';
+		fmt[4] = 'I';
+		fmt[5] = 'n';
+		fmt[6] = 'i';
+		fmt[7] = 't';
+		fmt[8] = ' ';
+		fmt[9] = 'O';
+		fmt[10] = 'K';
+		fmt[11] = '\r';
+		fmt[12] = '\n';
+		fmt[13] = '\0';
+	}
+	else
+	{
+		fmt[0] = 'D';
+		fmt[1] = 'D';
+		fmt[2] = 'R';
+		fmt[3] = ' ';
+		fmt[4] = 'I';
+		fmt[5] = 'n';
+		fmt[6] = 'i';
+		fmt[7] = 't';
+		fmt[8] = ' ';
+		fmt[9] = 'F';
+		fmt[10] = 'a';
+		fmt[11] = 'i';
+		fmt[12] = 'l';
+		fmt[13] = '\r';
+		fmt[14] = '\n';
+		fmt[15] = '\0';
+	}
+	printk(fmt);
 }

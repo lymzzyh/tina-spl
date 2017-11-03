@@ -104,7 +104,7 @@ $(X_NAME) : $(X_OBJS)
 	@echo [OC] Objcopying $@.bin
 	@$(OC) $(X_OCFLAGS) $@.elf $@.bin
 	@echo Make header information for brom booting
-	@$(MKSUNXI) $@.bin
+#	@$(MKSUNXI) $@.bin
 
 $(X_SOBJS) : .obj/%.o : %.S
 	@echo [AS] $<
