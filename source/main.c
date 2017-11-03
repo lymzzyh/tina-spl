@@ -66,23 +66,24 @@ int xboot_main(int argc, char * argv[])
 	for(i = 0; i < 5; i++)
 	{
 		led_set_level(0);
-		mdelay(500);
+		mdelay(200);
 		led_set_level(1);
-		mdelay(500);
+		mdelay(200);
 
 		sys_uart_putc('X');
 	}
 
-	for(i = 0; i < 10000; i++)
+	for(i = 0; i < 5; i++)
 	{
 		led_set_level(0);
-		mdelay(500);
+		mdelay(200);
 		led_set_level(1);
-		mdelay(500);
+		mdelay(200);
 
 		printk(fmt, i);
 	}
 
+	return_to_fel();
 	while(1);
 	return 0;
 }
