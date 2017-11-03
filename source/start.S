@@ -33,7 +33,7 @@ _start:
 	/* Boot head information for BROM */
 	.long 0xea000016
 	.byte 'e', 'G', 'O', 'N', '.', 'B', 'T', '0'
-	.long 0, 0x1000
+	.long 0, 0x2000
 	.byte 'S', 'P', 'L', 2
 	.long 0, 0
 	.long 0, 0, 0, 0, 0, 0, 0, 0	/* 0x20 - dram size, 0x28 - boot type */
@@ -103,8 +103,8 @@ reset:
 
 	/* Initial system clock, ddr add uart */
 	bl sys_clock_init
-	bl sys_dram_init
 	bl sys_uart_init
+	bl sys_dram_init
 
 	/* Copyself to link address */
 	adr r0, _start
