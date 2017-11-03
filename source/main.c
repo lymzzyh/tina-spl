@@ -32,7 +32,7 @@ int xboot_main(int argc, char * argv[])
 	fmt[2] = '=';
 	fmt[3] = ' ';
 	fmt[4] = '%';
-	fmt[5] = 'd';
+	fmt[5] = 'x';
 	fmt[6] = '\r';
 	fmt[7] = '\n';
 	fmt[8] = 0;

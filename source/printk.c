@@ -29,7 +29,7 @@ static void vpf_num_to_str(uint32_t a, int ish, int pl, int pc)
 {
 	char buf[32];
 	uint32_t base;
-	int	idx, i;
+	int idx, i, t;
 
 	for(i = 0; i < sizeof(buf); i++)
 		buf[i] = pc;
@@ -39,7 +39,11 @@ static void vpf_num_to_str(uint32_t a, int ish, int pl, int pc)
 
 	idx = 0;
 	do {
-		buf[idx] = "0123456789abcdef" [ a % base ];
+		t = a % base;
+		if(t >= 10)
+			buf[idx] = t - 10 + 'a';
+		else
+			buf[idx] = t + '0';
 		a /= base;
 		idx++;
 	} while (a > 0);
