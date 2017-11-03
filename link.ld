@@ -20,6 +20,9 @@ SECTIONS
 		PROVIDE(__image_start = .);
 		PROVIDE(__text_start = .);
 		.obj/source/start.o (.text)
+		.obj/source/sys-uart.o (.text)
+		.obj/source/sys-clock.o (.text)
+		.obj/source/sys-dram.o (.text)
 		*(.text*)
 		*(.glue*)
 		*(.note.gnu.build-id)

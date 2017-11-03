@@ -22,7 +22,7 @@
  *
  */
 
-#include <main.h>
+#include <xboot.h>
 
 void sys_uart_init(void)
 {
@@ -30,7 +30,7 @@ void sys_uart_init(void)
 	u32_t val;
 
 	/* Config GPIOF4 and GPIOF2 to txd0 and rxd0 */
-	addr = 0x01c208b4 + 0x04;
+	addr = 0x01c208b4 + 0x00;
 	val = read32(addr);
 	val &= ~(0xf << ((4 & 0x7) << 2));
 	val |= ((0x3 & 0x7) << ((4 & 0x7) << 2));
@@ -42,15 +42,15 @@ void sys_uart_init(void)
 	write32(addr, val);
 
 	/* Open the clock gate for uart0 */
-	addr = 0x01c2006c;
+	addr = 0x01c20068;
 	val = read32(addr);
-	val |= 1 << 16;
+	val |= 1 << 20;
 	write32(addr, val);
 
 	/* Deassert uart0 reset */
-	addr = 0x01c202d8;
+	addr = 0x01c202d0;
 	val = read32(addr);
-	val |= 1 << 16;
+	val |= 1 << 20;
 	write32(addr, val);
 
 	/* Config uart0 to 115200-8-1-0 */
@@ -61,8 +61,8 @@ void sys_uart_init(void)
 	val = read32(addr + 0x0c);
 	val |= (1 << 7);
 	write32(addr + 0x0c, val);
-	write32(addr + 0x00, 0xd & 0xff);
-	write32(addr + 0x04, (0xd >> 8) & 0xff);
+	write32(addr + 0x00, 0x37 & 0xff);
+	write32(addr + 0x04, (0x37 >> 8) & 0xff);
 	val = read32(addr + 0x0c);
 	val &= ~(1 << 7);
 	write32(addr + 0x0c, val);

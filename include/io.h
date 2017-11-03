@@ -1,8 +1,11 @@
 #ifndef __IO_H__
 #define __IO_H__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <types.h>
-#include <byteorder.h>
 
 static inline u8_t read8(virtual_addr_t addr)
 {
@@ -44,4 +47,11 @@ static inline void write64(virtual_addr_t addr, u64_t value)
 	*((volatile u64_t *)(addr)) = value;
 }
 
-#endif	/* __IO_H__ */
+virtual_addr_t phys_to_virt(physical_addr_t phys);
+physical_addr_t virt_to_phys(virtual_addr_t virt);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* __IO_H__ */

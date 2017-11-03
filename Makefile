@@ -2,7 +2,7 @@
 # Makefile for module.
 #
 
-CROSS		?= arm-linux-gnueabihf-
+CROSS		?= arm-eabi-
 NAME		:= f1c100s
 
 #
@@ -24,7 +24,7 @@ LDFLAGS		:= -T link.ld -nostdlib
 ARFLAGS		:= -rcs
 OCFLAGS		:= -v -O binary
 ODFLAGS		:=
-MCFLAGS		:= -march=armv5te -mtune=arm926ej-s -mfpu=vfp -mfloat-abi=hard -marm -mno-thumb-interwork
+MCFLAGS		:= -march=armv5te -mtune=arm926ej-s -mfloat-abi=soft -marm -mno-thumb-interwork
 
 LIBDIRS		:=
 LIBS 		:=

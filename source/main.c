@@ -1,35 +1,53 @@
-#include <main.h>
-#include <types.h>
-#include <gpio.h>
+#include <xboot.h>
 
-extern void aw_delay(volatile unsigned n);
+static void  aw_delay(volatile unsigned n)
+{
+	while(n)
+	{
+		n--;
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+		__asm__ __volatile__("nop" ::: "memory", "cc");
+	}
+}
 
 int xboot_main(int argc, char * argv[])
 {
 	int i = 0;
 
-//	CPUFrq(1, 200);
-	gpio_set_cfg(GPIO_A(0), 1, 1);
-	gpio_set_pull(GPIO_A(0), 1, 1);
+	//gpio_set_cfg(GPIO_A(0), 1, 1);
+	//gpio_set_pull(GPIO_A(0), 1, 1);
 
-	while(i++ < 5)
+	for(i = 0; i < 5; i++)
 	{
-		gpio_set_val(GPIO_A(0), 0);
+		//gpio_set_val(GPIO_A(0), 0);
 		aw_delay(50000);
-		gpio_set_val(GPIO_A(0), 1);
+		//gpio_set_val(GPIO_A(0), 1);
 		aw_delay(50000);
+		sys_uart_putc('X');
 	}
 
-//	serial_init();
-
-	while(1)
+	for(i = 0; i < 500000; i++)
 	{
-		gpio_set_val(GPIO_A(0), 0);
-		aw_delay(10000);
-		gpio_set_val(GPIO_A(0), 1);
-		aw_delay(10000);
-//		serial_put_char('a');
+		//gpio_set_val(GPIO_A(0), 0);
+		aw_delay(50000);
+	//	gpio_set_val(GPIO_A(0), 1);
+		aw_delay(50000);
+		printk("i = %d\r\n", i++);
 	}
 
+	while(1);
 	return 0;
 }

@@ -68,6 +68,44 @@ _fiq:
  * The actual reset code
  */
 reset:
+	/* Save boot params to 0x00000040 */
+	ldr r0, =0x00000040
+	str sp, [r0, #0]
+	str lr, [r0, #4]
+	mrs lr, cpsr
+	str lr, [r0, #8]
+	mrc p15, 0, lr, c1, c0, 0
+	str lr, [r0, #12]
+	mrc p15, 0, lr, c1, c0, 0
+	str lr, [r0, #16]
+
+	/* Enter svc mode and mask interrupts */
+	mrs r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0xd3
+	msr cpsr, r0
+
+	/* Set vector to the low address */
+	mrc p15, 0, r0, c1, c0, 0
+	bic r0, #(1<<13)
+	mcr p15, 0, r0, c1, c0, 0
+
+	/* Copy vector to the correct address */
+	adr r0, _vector
+	mrc p15, 0, r2, c1, c0, 0
+	ands r2, r2, #(1 << 13)
+	ldreq r1, =0x00000000
+	ldrne r1, =0xffff0000
+	ldmia r0!, {r2-r8, r10}
+	stmia r1!, {r2-r8, r10}
+	ldmia r0!, {r2-r8, r10}
+	stmia r1!, {r2-r8, r10}
+
+	/* Initial system clock, ddr add uart */
+	bl sys_clock_init
+	bl sys_dram_init
+	bl sys_uart_init
+
 	/* Copyself to link address */
 	adr r0, _start
 	ldr r1, =_start
@@ -129,6 +167,19 @@ _main:
 	mov r1, #0;
 	bl xboot_main
 	b _main
+
+	.global return_to_fel
+return_to_fel:
+	ldr r0, =0x00000040
+	ldr sp, [r0, #0]
+	ldr lr, [r0, #4]
+	ldr r1, [r0, #16]
+	mcr p15, 0, r1, c1, c0, 0
+	ldr r1, [r0, #12]
+	mcr p15, 0, r1, c1, c0, 0
+	ldr r1, [r0, #8]
+	msr cpsr, r1
+	bx lr
 
 /*
  * Exception handlers
