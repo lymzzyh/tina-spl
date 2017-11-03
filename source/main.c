@@ -26,6 +26,16 @@ static void  aw_delay(volatile unsigned n)
 int xboot_main(int argc, char * argv[])
 {
 	int i = 0;
+	char fmt[16];
+	fmt[0] = 'i';
+	fmt[1] = ' ';
+	fmt[2] = '=';
+	fmt[3] = ' ';
+	fmt[4] = '%';
+	fmt[5] = 'd';
+	fmt[6] = '\r';
+	fmt[7] = '\n';
+	fmt[8] = 0;
 
 	//gpio_set_cfg(GPIO_A(0), 1, 1);
 	//gpio_set_pull(GPIO_A(0), 1, 1);
@@ -45,7 +55,7 @@ int xboot_main(int argc, char * argv[])
 		aw_delay(50000);
 	//	gpio_set_val(GPIO_A(0), 1);
 		aw_delay(50000);
-		printk("i = %d\r\n", i++);
+		printk(fmt, i);
 	}
 
 	while(1);
