@@ -485,7 +485,7 @@ static int dram_init(struct dram_para_t * para)
 void sys_dram_init(void)
 {
 	struct dram_para_t para;
-	u32_t * dsz = (void *)0x00000020;
+	u32_t * dsz = (void *)0x0000005c;
 	char fmt[32];
 
 	para.base = 0x80000000;
